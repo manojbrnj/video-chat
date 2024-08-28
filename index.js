@@ -34,11 +34,30 @@ io.on('connection', (socket) => {
   socket.on('ice-candidate', (candidate) => {
     socket.broadcast.emit('ice-candidate', candidate);
   });
+  // Generate a unique room ID for each new connection
+  const roomId = generateUniqueRoomId();
+  socket.emit('roomId', roomId);
+
+  // Handle incoming calls
+  socket.on('makeCall', (targetRoomId) => {
+    socket
+      .to(targetRoomId)
+      .emit('incomingCall', {from: socket.id, roomId: targetRoomId});
+  });
+
+  // Handle call acceptance
+  socket.on('acceptCall', (data) => {
+    const {from, roomId} = data;
+    socket.to(from).emit('callAccepted', {roomId});
+  });
   // socket.on('disconnect', () => {
   //   console.log('A user disconnected');
   // });
 });
-
+function generateUniqueRoomId() {
+  // Implement your logic to generate a unique room ID
+  return Math.random().toString(36).substr(2, 9);
+}
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
