@@ -50,9 +50,20 @@ io.on('connection', (socket) => {
     const {from, roomId} = data;
     socket.to(from).emit('callAccepted', {roomId});
   });
-  // socket.on('disconnect', () => {
-  //   console.log('A user disconnected');
-  // });
+  // Incoming call event
+  socket.on('incomingCall', (data) => {
+    const {from, to, roomId} = data;
+    io.to(to).emit('callReceived', {from, roomId});
+  });
+
+  // Call accepted event
+  socket.on('callAccepted', (data) => {
+    const {to, roomId} = data;
+    io.to(to).emit('callConnected', {roomId});
+  });
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
 });
 function generateUniqueRoomId() {
   // Implement your logic to generate a unique room ID
