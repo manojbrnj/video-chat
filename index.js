@@ -10,6 +10,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: 'https://videochatfront-git-main-manojbrnjs-projects.vercel.app/',
+
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
