@@ -7,15 +7,7 @@ const io = new SocketIO(server);
 import cors from 'cors';
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: 'https://videochatfront-git-main-manojbrnjs-projects.vercel.app/',
-
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true,
-  }),
-);
+app.use(cors());
 
 io.on('connection', (socket) => {
   console.log('A user connected');
