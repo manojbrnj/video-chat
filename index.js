@@ -5,16 +5,8 @@ import cors from 'cors';
 import fs from 'fs';
 
 import {Server as SocketIO} from 'socket.io';
-import {dirname} from 'path';
-import {fileURLToPath} from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-app.use(express.static(__dirname));
-const cert = fs.readFileSync('cert.crt');
-const key = fs.readFileSync('cert.key');
-const server = http.createServer({key, cert}, app);
+const server = http.createServer(app);
 
 const io = new SocketIO(server);
 
