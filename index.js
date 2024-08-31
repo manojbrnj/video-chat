@@ -1,10 +1,15 @@
 import express from 'express';
 const app = express();
 import http from 'https';
-const server = http.createServer(app);
-import {Server as SocketIO} from 'socket.io';
-const io = new SocketIO(server);
 import cors from 'cors';
+import fs from 'fs';
+app.use(express.static(__dirname));
+import {Server as SocketIO} from 'socket.io';
+const cert = fs.readFileSync('cert.crt');
+const key = fs.readFileSync('cert.key');
+const server = http.createServer({key, cert}, app);
+
+const io = new SocketIO(server);
 
 app.use(express.json());
 app.use(
