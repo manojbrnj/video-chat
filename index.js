@@ -1,6 +1,7 @@
 import express from 'express';
 const app = express();
-import http from 'https';
+
+import http from 'http';
 import cors from 'cors';
 import fs from 'fs';
 
@@ -20,7 +21,7 @@ app.use(
 );
 
 io.on('connection', (socket) => {
-  console.log('New client connected');
+  console.log('Nya connecter client connected');
 
   socket.on('offer', (offer) => {
     socket.broadcast.emit('offer', offer);
