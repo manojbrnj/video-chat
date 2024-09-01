@@ -46,9 +46,9 @@ io.on('connection', (socket) => {
   socket.on('ice-candidate', (candidate) => {
     socket.broadcast.emit('ice-candidate', candidate);
   });
-  socket.on('chat', (message) => {
+  socket.on('chat-message', (message) => {
     console.log('message', message);
-    socket.broadcast.emit('chat', message);
+    socket.broadcast.emit('chat-message', message);
   });
   socket.on('disconnect', () => {
     console.log('Client disconnected');
