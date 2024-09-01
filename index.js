@@ -10,6 +10,7 @@ import {Server as SocketIO} from 'socket.io';
 const server = http.createServer(app);
 
 const io = new SocketIO(server);
+const offers = [];
 
 app.use(express.json());
 app.use(
@@ -19,6 +20,17 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
+io.use((socket, next) => {
+  const username = socket.handshake.auth.userName;
+  const password = socket.handshake.auth.password;
+  if (username === 'abcd' && password === 'x') {
+    console.log('socket', socket.id);
+    next();
+  } else {
+    next(new Error('Authentication error'));
+  }
+});
+// next();
 
 io.on('connection', (socket) => {
   console.log('Nya connecter client connected');
