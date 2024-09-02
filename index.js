@@ -50,6 +50,9 @@ io.on('connection', (socket) => {
     console.log('message', message);
     socket.broadcast.emit('chat-message', message);
   });
+  socket.on('new-track', (track) => {
+    socket.broadcast.emit('new-track', track);
+  });
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });
